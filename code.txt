@@ -1,0 +1,254 @@
+// exp2 - design flutter ui by common widget
+// exp3 - design flutter using common widget
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      // Application name
+      title: 'Flutter Hello World',
+      // Application theme data, you can set the colors for the application as
+      // you want
+      theme: ThemeData(
+        // useMaterial3: false,
+        primarySwatch: Colors.blue,
+      ),
+      // A widget which will be started on application startup
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  final String title;
+  const MyHomePage({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        // The title text which will be shown on the action bar
+        title: Text(title),
+      ),
+      body: Center(
+        child: Text(
+          'Hello, World!',
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+// exp4 - icon, image, chart
+
+import 'package:d_chart/commons/data_model.dart';
+import 'package:d_chart/ordinal/bar.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Icon(Icons.insert_chart), // Icon added here
+            SizedBox(
+                width: 8), // Adding some space between the icon and the title
+            Text('D\'Chart'),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      body: ListView(
+        padding: EdgeInsets.all(16),
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: DChartBarO(
+              groupList: [
+                OrdinalGroup(
+                  id: '1',
+                  data: [
+                    OrdinalData(domain: 'Mon', measure: 2),
+                    OrdinalData(domain: 'Tue', measure: 6),
+                    OrdinalData(domain: 'Wed', measure: 3),
+                    OrdinalData(domain: 'Thu', measure: 7),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+              height: 16), // Adding some space between the chart and the image
+          Center(
+            child: Image.network(
+              'https://imgs.search.brave.com/ZaKz9KIhgzD-V87a89xrMwRFkAh_5UCndR1Kt7Wg7IY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzI1LzY0LzUz/LzM2MF9GXzEyNTY0/NTMyOV9QYzZSbjFz/b1V1QVp5SGdwNERZ/eFhLVVhJVFNGQ2Mx/Ui5qcGc', // Replace 'https://example.com/image.jpg' with your image URL
+              width: 200, // Set the width of the image
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+// exp5 - bottom navigation bar
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    );
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bottom Navigation Bar Example'),
+      ),
+      body: Center(
+        child: Text(
+          'Tab ${_selectedIndex + 1}',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+// exp6 - animation
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AnimatedContainerDemo(),
+    );
+  }
+}
+
+class AnimatedContainerDemo extends StatefulWidget {
+  @override
+  _AnimatedContainerDemoState createState() => _AnimatedContainerDemoState();
+}
+
+class _AnimatedContainerDemoState extends State<AnimatedContainerDemo> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Simple Animation Example'),
+      ),
+      body: Center(
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _isExpanded = !_isExpanded;
+            });
+          },
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            width: _isExpanded ? 200.0 : 100.0,
+            height: _isExpanded ? 200.0 : 100.0,
+            color: _isExpanded ? Colors.blue : Colors.red,
+            curve: Curves.easeInOut,
+            child: Center(
+              child: Text(
+                _isExpanded ? 'Expanded' : 'Collapsed',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
